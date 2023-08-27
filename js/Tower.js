@@ -1,12 +1,12 @@
-import { ROOT } from "./constants.js"
+import { ROOT, LEVELS, ENEMY, NAMES } from "./constants.js"
 import { UPDATE_ENEMY_POSITION } from "./events.js"
 import { ptInCircle, throttle } from "./utils.js"
 import Bullet from "./Bullet.js"
 
 class Tower {
   constructor({
-    name = "tower",
-    level = "l1",
+    name = NAMES.tower,
+    level = LEVELS.l1,
     size = 40,
     left = 390,
     top = 80,
@@ -17,12 +17,11 @@ class Tower {
     this._name = name
     this._level = level
     this._size = size
-    this._left = left
-    this._top = top
+    this._left = left - covering
+    this._top = top - covering
     this._covering = covering
     this._damage = damage
     this._speed = speed
-
 
     this._draw()
 
@@ -81,7 +80,7 @@ class Tower {
     requestAnimationFrame(() => {
       const { centerX, centerY } = this._getCenter()
 
-      const enemies = [...document.querySelectorAll(".enemy")]
+      const enemies = [...document.querySelectorAll(ENEMY)]
 
       const filteredEnemies = enemies.filter(enemy => {
         const { x, y } = enemy.getBoundingClientRect()

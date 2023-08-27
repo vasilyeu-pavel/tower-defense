@@ -6,17 +6,30 @@
   <title>Tower defense</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="manifest" href="site.webmanifest">
   <!-- Place favicon.ico in the root directory -->
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/tower.css">
+  <link rel="stylesheet" href="css/enemy.css">
+  <link rel="stylesheet" href="css/bullet.css">
 
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
   <div class="header">
+    <div class="header__towers">
+      <div class="header__tower-l1">
+        <div
+          class="header__tower-l1_tower"
+          id="preview-tower-l1"
+        >
+        </div>
+        <span class="header__tower-l1_coast">100$</span>
+      </div>
+    </div>
     <div class="header__health">
       <div class="header__health-value">0</div>
       <div class="header__health-icon icon"></div>

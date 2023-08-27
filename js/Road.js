@@ -1,7 +1,7 @@
-import { ROAD_HEIGHT, VW, VH, getMaxVW, ROOT, VERTICAL_LINE } from "./constants.js"
+import { ROAD_HEIGHT, VW, VH, getMaxVW, ROOT, VERTICAL_LINE, NAMES } from "./constants.js"
 
-class Spaces {
-  constructor({ name = "road" }) {
+class Road {
+  constructor({ name = NAMES.road }) {
     this._name = name
     this._root = document.querySelector(ROOT)
 
@@ -66,4 +66,4 @@ class Spaces {
   }
 }
 
-export default Spaces
+export default Road

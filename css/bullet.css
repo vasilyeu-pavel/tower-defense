@@ -1,0 +1,74 @@
+.bullet {
+    position: absolute;
+    z-index: 3;
+    width: 7px;
+    height: 7px;
+    background-size: contain;
+    background: url("../img/bullet.png") no-repeat center center;
+    top: var(--bullet-start-y);
+    left: var(--bullet-start-x);
+}
+
+.bullet.boom {
+    background-position: -7px -5px;
+    width: var(--bullet-size);
+    height: var(--bullet-size);
+    background: url("../img/boom.png") no-repeat;
+    background-position: unset;
+    background-size: unset;
+    animation-name: boom;
+    animation-duration: .5s;
+    animation-timing-function: steps(1);
+    animation-iteration-count: infinite;
+}
+
+@keyframes boom {
+    0% {
+        background-position: -7px -5px;
+    }
+    6% {
+        background-position: -30px -3px;
+    }
+    12% {
+        background-position: -30px -3px;
+    }
+    18% {
+        background-position: -79px -2px;
+    }
+    24% {
+        background-position: -101px -1px;
+    }
+    30% {
+        background-position: 0 -26px;
+    }
+    36% {
+        background-position: -26px -26px;
+    }
+    42% {
+        background-position: -51px -26px;
+    }
+    50% {
+        background-position: -76px -25px;
+    }
+    55% {
+        background-position: -101px -25px;
+    }
+    61% {
+        background-position: -0px -50px;
+    }
+    67% {
+        background-position: -26px -50px;
+    }
+    73% {
+        background-position: -52px -50px;
+    }
+    79% {
+        background-position: -77px -50px;
+    }
+    79% {
+        background-position: -101px -50px;
+    }
+    100% {
+        background-position: -1px -76px;
+    }
+}

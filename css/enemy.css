@@ -1,0 +1,91 @@
+.enemy {
+    width: 33px;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+    transition: top 0.1s ease 0s, left 0.1s ease 0s;
+    animation-duration: .3s;
+    animation-timing-function: steps(1);
+    animation-iteration-count: infinite;
+    background: url("../img/enimes.png") no-repeat;
+}
+
+.enemy:before {
+    content: '';
+    position: absolute;
+    width: var(--health, 100%);
+    height: 2px;
+    background: green;
+    border-radius: 5px;
+    z-index: 3;
+    top: -2px;
+}
+
+.enemy:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    border-radius: 5px;
+    height: 2px;
+    background: #A1A1A1;
+    z-index: 2;
+    top: -2px;
+}
+
+.enemy.hurt:before {
+    background: red;
+}
+
+.enemy.right {
+    animation-name: sprite-right;
+}
+
+.enemy.left {
+    animation-name: sprite-left;
+}
+
+.enemy.bottom {
+    animation-name: sprite-bottom;
+}
+
+@keyframes sprite-right {
+    0% {
+        background-position: -96px 0;
+    }
+    33% {
+        background-position: -63px 0;
+    }
+    66% {
+        background-position: -33px 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes sprite-left {
+    0% {
+        background-position: -126px 0;
+    }
+    33% {
+        background-position: -157px 0;
+    }
+    66% {
+        background-position: -187px 0;
+    }
+    100% {
+        background-position: 220px 0;
+    }
+}
+
+@keyframes sprite-bottom {
+    0% {
+        background-position: -382px 0;
+    }
+    50% {
+        background-position: -416px 0;
+    }
+    100% {
+        background-position: -446px 0;
+    }
+}

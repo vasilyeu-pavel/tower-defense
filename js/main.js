@@ -1,12 +1,21 @@
-import Spaces from "./Spaces.js"
+import Road from "./Road.js"
 import Enemy from "./Enemy.js"
-import Tower from "./Tower.js"
-import { VERTICAL_LINE, ROAD_HEIGHT, MAX_ENEMIES, ENEMY_DELAY } from "./constants.js"
+import {
+  VERTICAL_LINE,
+  ROAD_HEIGHT,
+  MAX_ENEMIES,
+  ENEMY_DELAY,
+  START_MONEY,
+} from "./constants.js"
+import DragAndDrop from "./DragAndDrop.js"
 
-class MainController {
+class MainController extends DragAndDrop {
   constructor() {
+    super({
+      money: START_MONEY,
+    })
+
     this._lifes = 5
-    this._money = 0
     this._round = 1
 
     this.start()
@@ -19,10 +28,16 @@ class MainController {
   }
 
   start() {
-    new Spaces({})
-    new Tower({})
+    new Road({})
 
     this._createEnemies()
+  }
+
+  _onBougth (coast) {
+    this._money = this._money - coast
+    this._moneyElement.innerHTML = this._money
+
+    this.disableElement()
   }
 
   _createEnemies () {

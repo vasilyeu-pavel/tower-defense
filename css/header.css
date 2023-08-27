@@ -1,0 +1,112 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    height: 65px;
+    width: 100%;
+    background: black;
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.header__health, .header__money {
+    position: relative;
+}
+
+.header__money {
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.icon {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    width: 50px;
+    height: 50px;
+}
+
+.header__gold-icon {
+    background: url("../img/money.png") no-repeat center;
+    background-size: contain;
+}
+
+.header__health-icon {
+    right: 0px;
+    top: -10px;
+    background: url("../img/health.png") no-repeat center;
+    background-size: contain;
+}
+
+.header__gold-icon {
+    right: 5px;
+    top: 7px;
+    background: url("../img/money.png") no-repeat center;
+    background-size: contain;
+}
+
+.header__gold-value {
+    margin-right: 65px;
+}
+
+.header__gold-value:before {
+    content: '$';
+}
+
+.header__health-value {
+    margin-right: 65px;
+}
+
+/*////////////////////////////////////////////////
+///////////////////// towers /////////////////////
+////////////////////////////////////////////////*/
+.header__towers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.header__tower-l1 {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.header__tower-l1.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.header__tower-l1.disabled .header__tower-l1_tower {
+    cursor: not-allowed;
+}
+
+.header__tower-l1_tower {
+    width: 100%;
+    height: 100%;
+    background: url("../img/tower.png") 100% / contain no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.header__tower-l1_coast {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}

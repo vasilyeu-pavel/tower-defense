@@ -1,4 +1,4 @@
-import { ROOT } from "./constants.js"
+import { ROOT, ENEMY, NAMES } from "./constants.js"
 import { getEnemyDamage } from "./events.js"
 import {linear, interpolate, animate, ptInCircle} from "./utils.js"
 
@@ -55,12 +55,12 @@ class Bullet {
     this._bullet.style.top = y + "px"
 
     if (progress === 1) {
-      this._bullet.classList.add("boom")
+      this._bullet.classList.add(NAMES.boom)
 
       requestAnimationFrame(() => {
         const { centerX, centerY } = this._getCenter()
 
-        const enemies = [...document.querySelectorAll(".enemy")]
+        const enemies = [...document.querySelectorAll(ENEMY)]
 
         const filteredEnemies = enemies.filter(enemy => {
           const { x, y } = enemy.getBoundingClientRect()

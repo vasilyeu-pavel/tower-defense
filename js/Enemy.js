@@ -1,18 +1,24 @@
-import { VW, getMaxVW, ROOT, STEP, VERTICAL_LINE, VH } from "./constants.js"
+import {
+  VW,
+  getMaxVW,
+  ROOT,
+  STEP,
+  VERTICAL_LINE,
+  VH,
+  NAMES,
+  LEFT,
+  BOTTOM,
+  RIGHT,
+  LEVELS,
+} from "./constants.js"
 import { enemyPosition } from "./events.js"
 
-const LEFT = "left"
-const BOTTOM = "bottom"
-const RIGHT = "right"
-
-const ENEMY = "enemy"
-
 const damageMap = {
-  "l1": 51,
+  [LEVELS.l1]: 51,
 }
 
 const prizeMap = {
-  "l1": 50,
+  [LEVELS.l1]: 50,
 }
 
 class Enemy {
@@ -20,8 +26,8 @@ class Enemy {
     y = 0,
     x = 0,
     size = 5,
-    name = ENEMY,
-    level = "l1",
+    name = NAMES.enemy,
+    level = LEVELS.l1,
     speed = 100,
     onDied,
     onWin,
@@ -68,6 +74,7 @@ class Enemy {
   _damage () {
     const damage = damageMap[this._level]
     if (!damage) return
+
     this._health = this._health - (100 * Number(`0.${damage}`))
 
     if (this._health < 0) {
@@ -89,7 +96,7 @@ class Enemy {
       this._enemy.style.setProperty("--health", `${this._health}%`)
 
       if (this._health < 50) {
-        this._enemy.classList.add("hurt")
+        this._enemy.classList.add(NAMES.hurt)
       }
 
       this._enemy.dispatchEvent(enemyPosition)
