@@ -5,39 +5,26 @@ import {
   ROAD_HEIGHT,
   MAX_ENEMIES,
   ENEMY_DELAY,
-  START_MONEY,
+  LEVELS,
+  TOWERS,
 } from "./constants.js"
 import DragAndDrop from "./DragAndDrop.js"
 
 class MainController extends DragAndDrop {
   constructor() {
-    super({
-      money: START_MONEY,
-    })
+    super()
 
-    this._lifes = 5
-    this._round = 1
-
-    this.start()
-
-    this._moneyElement = document.querySelector(".header__gold-value")
-    this._lifeElement = document.querySelector(".header__health-value")
-
-    this._moneyElement.innerHTML = this._money
-    this._lifeElement.innerHTML = this._lifes
-  }
-
-  start() {
     new Road({})
 
     this._createEnemies()
   }
 
   _onBougth (coast) {
-    this._money = this._money - coast
-    this._moneyElement.innerHTML = this._money
+    this._spendMoney(coast)
 
-    this.disableElement()
+    if (this._money < TOWERS[LEVELS.l1].coast) {
+      this.disableElement()
+    }
   }
 
   _createEnemies () {
@@ -58,23 +45,22 @@ class MainController extends DragAndDrop {
     }, ENEMY_DELAY)
   }
 
-  _setUpRound () {
-    this._round = this._round + 1
-  }
-
   _onWin () {
     if (this._lifes === 0) {
       console.log("you lost")
 
       return
     }
-    this._lifes = this._lifes - 1
-    this._lifeElement.innerHTML = this._lifes
+
+    this._spendLife()
   }
 
   _onDied (money) {
-    this._money = this._money + money
-    this._moneyElement.innerHTML = this._money
+    this._riseMoney(money)
+
+    if (this._money >= TOWERS[LEVELS.l1].coast) {
+      this.enabletElement()
+    }
   }
 }
 

@@ -1,11 +1,17 @@
-import { ROAD_HEIGHT, VW, VH, getMaxVW, ROOT, VERTICAL_LINE, NAMES } from "./constants.js"
+import {
+  ROAD_HEIGHT,
+  VW,
+  VH,
+  getMaxVW,
+  VERTICAL_LINE,
+  NAMES,
+} from "./constants.js"
+import BaseElement from "./BaseElement.js"
 
-class Road {
+class Road extends BaseElement {
   constructor({ name = NAMES.road }) {
+    super({})
     this._name = name
-    this._root = document.querySelector(ROOT)
-
-    if (!this._root) throw new Error("root isn't found")
 
     this._root.style.setProperty("--vertical-offsets", `${VERTICAL_LINE}px`)
     this._root.style.setProperty("--horizontal-offsets", `${VW - getMaxVW()}px`)

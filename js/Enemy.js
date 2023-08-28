@@ -1,7 +1,6 @@
 import {
   VW,
   getMaxVW,
-  ROOT,
   STEP,
   VERTICAL_LINE,
   VH,
@@ -10,18 +9,12 @@ import {
   BOTTOM,
   RIGHT,
   LEVELS,
+  PRIZE_MAP,
 } from "./constants.js"
 import { enemyPosition } from "./events.js"
+import BaseElement from "./BaseElement.js"
 
-const damageMap = {
-  [LEVELS.l1]: 51,
-}
-
-const prizeMap = {
-  [LEVELS.l1]: 50,
-}
-
-class Enemy {
+class Enemy extends BaseElement {
   constructor({
     y = 0,
     x = 0,
@@ -33,6 +26,10 @@ class Enemy {
     onWin,
     count,
   }) {
+    super({ tagName: "span" })
+
+    this._createElement()
+
     this._y = y
     this._x = x
     this._size = size
@@ -50,29 +47,22 @@ class Enemy {
   }
 
   _draw () {
-    const root = document.querySelector(ROOT)
-    const enemy = document.createElement("span")
     const id = `${this._name}_${this._level}_${this._count}`
 
-    this._enemy = enemy
-
-    enemy.classList.add(this._name)
-    enemy.classList.add(this._level)
-    enemy.setAttribute("id", id)
+    this._element.classList.add(this._name)
+    this._element.classList.add(this._level)
+    this._element.setAttribute("id", id)
 
     // sizes
-    enemy.style.width = `${this._size}px`
-    enemy.style.height = `${this._size}px`
-
-    root.appendChild(enemy)
+    this._element.style.width = `${this._size}px`
+    this._element.style.height = `${this._size}px`
 
     this._step()
 
     document.addEventListener(`damage-${id}`, this._damage.bind(this))
   }
 
-  _damage () {
-    const damage = damageMap[this._level]
+  _damage ({ detail: { damage, id } }) {
     if (!damage) return
 
     this._health = this._health - (100 * Number(`0.${damage}`))
@@ -84,37 +74,35 @@ class Enemy {
 
   _step () {
     requestAnimationFrame(() => {
-      this._enemy.style.top = `${this._y}px`
-      this._enemy.style.left = `${this._x}px`
+      this._element.style.top = `${this._y}px`
+      this._element.style.left = `${this._x}px`
 
-      this._enemy.classList.remove(LEFT)
-      this._enemy.classList.remove(BOTTOM)
-      this._enemy.classList.remove(RIGHT)
+      this._element.classList.remove(LEFT)
+      this._element.classList.remove(BOTTOM)
+      this._element.classList.remove(RIGHT)
 
-      this._enemy.classList.add(this._direction)
+      this._element.classList.add(this._direction)
 
-      this._enemy.style.setProperty("--health", `${this._health}%`)
+      this._element.style.setProperty("--health", `${this._health}%`)
 
       if (this._health < 50) {
-        this._enemy.classList.add(NAMES.hurt)
+        this._element.classList.add(NAMES.hurt)
       }
 
-      this._enemy.dispatchEvent(enemyPosition)
+      this._element.dispatchEvent(enemyPosition)
     })
   }
 
   died () {
-    this._enemy.remove()
+    this._element.remove()
 
-    if (this.onDied) this.onDied(prizeMap[this._level])
+    if (this.onDied) this.onDied(PRIZE_MAP[this._level])
   }
 
   win () {
-    this._enemy.remove()
+    this._element.remove()
 
-    if (this.onWin) {
-      this.onWin()
-    }
+    if (this.onWin) this.onWin()
   }
 
   move() {

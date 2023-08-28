@@ -30,7 +30,7 @@ export const getMaxVW = (percentage = PERCENTAGE) => {
   return VW - (VW * percentage)
 }
 
-export const MAX_ENEMIES = 1
+export const MAX_ENEMIES = 10
 
 export const ENEMY_DELAY = 1000
 
@@ -39,7 +39,7 @@ export const TOKENS = {
   danger50: "rgba(255, 0, 0, 0.5)",
 }
 
-export const START_MONEY = 100
+export const START_MONEY = 200
 
 export const LEVELS = {
   l1: "l1",
@@ -54,6 +54,12 @@ export const TOWERS = {
   }
 }
 
+export const PRIZE_MAP = {
+  [LEVELS.l1]: 50,
+}
+
 export const LEFT = "left"
 export const BOTTOM = "bottom"
 export const RIGHT = "right"
+
+export const TOWER_SIZE=  40

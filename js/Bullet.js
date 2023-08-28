@@ -1,11 +1,12 @@
-import { ROOT, ENEMY, NAMES } from "./constants.js"
+import { ENEMY, NAMES } from "./constants.js"
 import { getEnemyDamage } from "./events.js"
-import {linear, interpolate, animate, ptInCircle} from "./utils.js"
+import { linear, interpolate, animate, ptInCircle } from "./utils.js"
+import BaseElement from "./BaseElement.js"
 
 const BOOM_DELAY = 500
 const SIZE = 25
 
-class Bullet {
+class Bullet extends BaseElement {
   constructor({
     toX,
     toY,
@@ -15,6 +16,10 @@ class Bullet {
     onDied,
     speed = 300,
   }) {
+    super({ tagName: "span" })
+
+    this._createElement()
+
     this._toX = toX
     this._toY = toY
     this._startX = startX
@@ -36,7 +41,7 @@ class Bullet {
   }
 
   _getCenter () {
-    const { width, top, left, height } = this._bullet.getBoundingClientRect()
+    const { width, top, left, height } = this._element.getBoundingClientRect()
 
     const centerX = width / 2 + left
     const centerY = height / 2 + top
@@ -51,11 +56,11 @@ class Bullet {
       progress,
     )
 
-    this._bullet.style.left = x + "px"
-    this._bullet.style.top = y + "px"
+    this._element.style.left = x + "px"
+    this._element.style.top = y + "px"
 
     if (progress === 1) {
-      this._bullet.classList.add(NAMES.boom)
+      this._element.classList.add(NAMES.boom)
 
       requestAnimationFrame(() => {
         const { centerX, centerY } = this._getCenter()
@@ -71,7 +76,7 @@ class Bullet {
           filteredEnemies.forEach(enemy => {
             const id = enemy.getAttribute("id")
 
-            enemy.dispatchEvent(getEnemyDamage(id))
+            document.dispatchEvent(getEnemyDamage(id, this._damage))
           })
         }
       })
@@ -83,27 +88,20 @@ class Bullet {
   }
 
   _died () {
-    this._bullet.remove()
+    this._element.remove()
 
     if (this.onDied) this.onDied()
   }
 
   _draw () {
-    const root = document.querySelector(ROOT)
-    const bullet = document.createElement("span")
+    this._element.classList.add("bullet")
 
-    bullet.classList.add("bullet")
+    this._element.style.top = `${this._startY}px`
+    this._element.style.left = `${this._startX}px`
 
-    bullet.style.top = `${this._startY}px`
-    bullet.style.left = `${this._startX}px`
-
-    bullet.style.setProperty("--bullet-start-x", `${this._startX}px`)
-    bullet.style.setProperty("--bullet-start-y", `${this._startY}px`)
-    bullet.style.setProperty("--bullet-size", `${SIZE}px`)
-
-    this._bullet = bullet
-
-    root.appendChild(bullet)
+    this._element.style.setProperty("--bullet-start-x", `${this._startX}px`)
+    this._element.style.setProperty("--bullet-start-y", `${this._startY}px`)
+    this._element.style.setProperty("--bullet-size", `${SIZE}px`)
   }
 
 }

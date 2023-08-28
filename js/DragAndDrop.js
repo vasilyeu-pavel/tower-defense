@@ -1,11 +1,17 @@
-import { ROOT, TOKENS, TOWER, ROAD, HEADER, LEVELS, NAMES, TOWERS } from "./constants.js"
+import { TOKENS, TOWER, ROAD, HEADER, LEVELS, NAMES, TOWERS, TOWER_SIZE, ROOT } from "./constants.js"
 import Tower from "./Tower.js"
+import BaseGameController from "./BaseGameController.js"
 
-class DragAndDrop {
-    constructor({ money }) {
+class DragAndDrop extends BaseGameController {
+    constructor() {
+        super()
         const root = document.querySelector(ROOT)
-        this._money = money
 
+        if (!root) throw new Error("root isn't found")
+
+        this._root = root
+
+        this._towerSize = TOWER_SIZE
         this._towerL1 = document.getElementById("preview-tower-l1")
 
         let currentDroppable = null
@@ -25,7 +31,7 @@ class DragAndDrop {
             const roads = document.querySelectorAll(ROAD)
 
             roads.forEach((elem) => {
-                elem.style.background = ''
+                elem.style.background = ""
             })
         }
 
@@ -43,15 +49,17 @@ class DragAndDrop {
             document.body.classList.remove("dragging")
 
             towers.forEach(el => {
-                el.style.border = ''
+                el.style.border = ""
             })
         }
 
-        if (this._money < TOWERS[LEVELS.l1].coast) this.disableElement(this._towerL1)
-
-        let onBougth = this._onBougth.bind(this)
+        const onBougth = this._onBougth.bind(this)
+        const getRound = this._getRound.bind(this)
+        const towerSize = this._towerSize
 
         if (this._towerL1) {
+            if (this._money < TOWERS[LEVELS.l1].coast) this.disableElement(this._towerL1.parentElement)
+
             this._towerL1.addEventListener("mousedown", (event) => {
                 dragging()
 
@@ -66,10 +74,15 @@ class DragAndDrop {
 
                 fakeTower.classList.add(NAMES.fakeTower)
 
-                let shiftX = event.clientX - fakeTower.getBoundingClientRect().left - 20
+                this._root.style.setProperty(
+                    "--fake-tower-size",
+                    `${(TOWERS[this._getRound()].covering * 2) + this._towerSize}px`
+                )
+
+                let shiftX = event.clientX - fakeTower.getBoundingClientRect().left - (this._towerSize / 2)
                 let shiftY = event.clientY - fakeTower.getBoundingClientRect().top
 
-                root.appendChild(fakeTower)
+                this._root.appendChild(fakeTower)
 
                 moveAt(event.pageX, event.pageY)
 
@@ -84,7 +97,7 @@ class DragAndDrop {
                     document.body.classList.add("dragging")
 
                     fakeTower.hidden = true
-                    let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+                    let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
                     fakeTower.hidden = false
 
                     // mousemove events may trigger out of the window (when the ball is dragged off-screen)
@@ -124,12 +137,13 @@ class DragAndDrop {
                     new Tower({
                         left: x,
                         top: y,
-                        level: LEVELS.l1,
-                        covering: TOWERS[LEVELS.l1].covering,
-                        damage: TOWERS[LEVELS.l1].damage,
+                        level: getRound(),
+                        covering: TOWERS[getRound()].covering,
+                        damage: TOWERS[getRound()].damage,
+                        size: towerSize,
                     })
 
-                    if (onBougth) onBougth(TOWERS[LEVELS.l1].coast)
+                    if (onBougth) onBougth(TOWERS[getRound()].coast)
                 }
 
                 fakeTower.ondragstart = function() {
@@ -144,6 +158,14 @@ class DragAndDrop {
             this._towerL1.parentElement.classList.add("disabled")
         } else {
             element.classList.add("disabled")
+        }
+    }
+
+    enabletElement (element) {
+        if (!element) {
+            this._towerL1.parentElement.classList.remove("disabled")
+        } else {
+            element.classList.remove("disabled")
         }
     }
 }

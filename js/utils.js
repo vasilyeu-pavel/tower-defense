@@ -6,9 +6,8 @@
  * @returns {-1 | 0 | 1} -1 if the point is inside, 0 if it is on and 1 if it is outside the circle.
  */
 export function ptInCircle(pt, center, r) {
-
   const lhs = Math.pow(center[0] - pt[0], 2) + Math.pow(center[1] - pt[1], 2);
-  const rhs = Math.pow(r, 2);
+  const rhs = Math.pow(r + 20, 2); // +20 - кастыль
 
   return lhs < rhs ? -1 : (lhs === rhs ? 0 : 1);
 }
