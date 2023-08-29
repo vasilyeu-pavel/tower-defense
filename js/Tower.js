@@ -1,4 +1,4 @@
-import { LEVELS, ENEMY, NAMES } from "./constants.js"
+import { LEVELS, ENEMY, NAMES, TOWERS } from "./constants.js"
 import { UPDATE_ENEMY_POSITION } from "./events.js"
 import { ptInCircle, throttle } from "./utils.js"
 import Bullet from "./Bullet.js"

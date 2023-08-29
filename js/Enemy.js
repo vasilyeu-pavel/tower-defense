@@ -10,6 +10,7 @@ import {
   RIGHT,
   LEVELS,
   PRIZE_MAP,
+  ENEMIES,
 } from "./constants.js"
 import { enemyPosition } from "./events.js"
 import BaseElement from "./BaseElement.js"
@@ -36,7 +37,8 @@ class Enemy extends BaseElement {
     this._name = name
     this._speed = speed
     this._direction = RIGHT
-    this._health = 100
+    this._health = ENEMIES[level].health
+    this._initHealth = ENEMIES[level].health
     this._level = level
     this._count = count
 
@@ -56,6 +58,8 @@ class Enemy extends BaseElement {
     // sizes
     this._element.style.width = `${this._size}px`
     this._element.style.height = `${this._size}px`
+
+    this._element.style.setProperty("--health", `${this._initHealth}%`)
 
     this._step()
 
@@ -83,7 +87,7 @@ class Enemy extends BaseElement {
 
       this._element.classList.add(this._direction)
 
-      this._element.style.setProperty("--health", `${this._health}%`)
+      this._element.style.setProperty("--health", `${100 * this._health / this._initHealth}%`)
 
       if (this._health < 50) {
         this._element.classList.add(NAMES.hurt)

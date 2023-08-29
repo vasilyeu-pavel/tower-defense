@@ -26,23 +26,22 @@ export const ROAD_HEIGHT = 50
 
 export const STEP = 2
 
+export const DELAY_BEETWEEN_ROUNDS = 3000
+
 export const getMaxVW = (percentage = PERCENTAGE) => {
   return VW - (VW * percentage)
 }
-
-export const MAX_ENEMIES = 10
-
-export const ENEMY_DELAY = 1000
 
 export const TOKENS = {
   danger100: "rgba(255, 0, 0, 1)",
   danger50: "rgba(255, 0, 0, 0.5)",
 }
 
-export const START_MONEY = 200
+export const START_MONEY = 600
 
 export const LEVELS = {
   l1: "l1",
+  l2: "l2",
 }
 
 export const TOWERS = {
@@ -60,8 +59,24 @@ export const TOWERS = {
   }
 }
 
+export const ENEMIES = {
+  [LEVELS.l1]: {
+    health: 100, // %
+    count: 2,
+    delay: 1000,
+    speed: 40,
+  },
+  [LEVELS.l2]: {
+    health: 110, // %
+    count: 12,
+    delay: 1000,
+    speed: 40,
+  },
+}
+
 export const PRIZE_MAP = {
   [LEVELS.l1]: 50,
+  [LEVELS.l2]: 60,
 }
 
 export const LEFT = "left"

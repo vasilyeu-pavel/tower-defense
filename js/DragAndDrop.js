@@ -173,8 +173,9 @@ class DragAndDrop extends BaseGameController {
         if (!element) {
             Object.keys(TOWERS).forEach(towerId => {
                 const tower = document.getElementById(`preview-tower-${towerId}`)
+                const minPrice = Number(tower.parentElement.querySelector("span").innerText.replace("$", ""))
 
-                if (tower) {
+                if (tower && this._money < minPrice) {
                     tower.parentElement.classList.add("disabled")
                 }
             })
@@ -187,8 +188,9 @@ class DragAndDrop extends BaseGameController {
         if (!element) {
             Object.keys(TOWERS).forEach(towerId => {
                 const tower = document.getElementById(`preview-tower-${towerId}`)
+                const minPrice = Number(tower.parentElement.querySelector("span").innerText.replace("$", ""))
 
-                if (tower) {
+                if (tower && this._money >= minPrice) {
                     tower.parentElement.classList.remove("disabled")
                 }
             })

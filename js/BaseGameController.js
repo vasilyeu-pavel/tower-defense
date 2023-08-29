@@ -14,7 +14,11 @@ class BaseGameController {
     }
 
     _getRound () {
-        return `l${this._round}`
+        return this._getRoundFormatter(this._round)
+    }
+
+    _getRoundFormatter (round) {
+        return `l${round}`
     }
 
     _getLifeCount () {
