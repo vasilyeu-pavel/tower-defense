@@ -6,40 +6,40 @@
  * @returns {-1 | 0 | 1} -1 if the point is inside, 0 if it is on and 1 if it is outside the circle.
  */
 export function ptInCircle(pt, center, r) {
-  const lhs = Math.pow(center[0] - pt[0], 2) + Math.pow(center[1] - pt[1], 2);
-  const rhs = Math.pow(r + 20, 2); // +20 - кастыль
+  const lhs = Math.pow(center[0] - pt[0], 2) + Math.pow(center[1] - pt[1], 2)
+  const rhs = Math.pow(r + 20, 2) // +20 - кастыль
 
-  return lhs < rhs ? -1 : (lhs === rhs ? 0 : 1);
+  return lhs < rhs ? -1 : (lhs === rhs ? 0 : 1)
 }
 
 export function throttle(func, ms) {
 
   let isThrottled = false,
     savedArgs,
-    savedThis;
+    savedThis
 
   function wrapper() {
 
     if (isThrottled) { // (2)
-      savedArgs = arguments;
-      savedThis = this;
-      return;
+      savedArgs = arguments
+      savedThis = this
+      return
     }
 
-    func.apply(this, arguments); // (1)
+    func.apply(this, arguments) // (1)
 
-    isThrottled = true;
+    isThrottled = true
 
     setTimeout(function() {
-      isThrottled = false; // (3)
+      isThrottled = false // (3)
       if (savedArgs) {
-        wrapper.apply(savedThis, savedArgs);
-        savedArgs = savedThis = null;
+        wrapper.apply(savedThis, savedArgs)
+        savedArgs = savedThis = null
       }
-    }, ms);
+    }, ms)
   }
 
-  return wrapper;
+  return wrapper
 }
 
 export function animate({ duration, draw, timing }) {
@@ -57,7 +57,7 @@ export function animate({ duration, draw, timing }) {
       requestAnimationFrame(animate)
     }
 
-  });
+  })
 }
 
 export function linear(timeFraction) {

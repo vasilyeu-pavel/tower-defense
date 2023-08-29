@@ -22,10 +22,16 @@
     width: 40px;
     height: 40px;
     background: #555555;
-    left: calc(50% - 20px);
-    top: calc(50% - 20px);
     z-index: 3;
-    background: url("../img/tower.png") 100% / contain no-repeat;
+}
+
+.tower.t1:before, .fake-tower.t1 {
+    background: url("../img/t1.png") 100% / contain no-repeat;
+    background-position: center center;
+}
+
+.tower.t2:before, .fake-tower.t2 {
+    background: url("../img/t2.png") 100% / contain no-repeat;
     background-position: center center;
 }
 

@@ -62,10 +62,10 @@ class Enemy extends BaseElement {
     document.addEventListener(`damage-${id}`, this._damage.bind(this))
   }
 
-  _damage ({ detail: { damage, id } }) {
+  _damage ({ detail: { damage, id: enemyId } }) {
     if (!damage) return
 
-    this._health = this._health - (100 * Number(`0.${damage}`))
+    this._health = this._health - (100 * Number(damage))
 
     if (this._health < 0) {
       this.died()
@@ -172,10 +172,6 @@ class Enemy extends BaseElement {
     }
 
     toRight()
-  }
-
-  hurt (damage) {
-    this._health = this._health - damage
   }
 }
 

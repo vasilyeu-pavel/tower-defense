@@ -22,7 +22,7 @@ class MainController extends DragAndDrop {
   _onBougth (coast) {
     this._spendMoney(coast)
 
-    if (this._money < TOWERS[LEVELS.l1].coast) {
+    if (this._money < TOWERS.t1.coast) {
       this.disableElement()
     }
   }
@@ -58,8 +58,8 @@ class MainController extends DragAndDrop {
   _onDied (money) {
     this._riseMoney(money)
 
-    if (this._money >= TOWERS[LEVELS.l1].coast) {
-      this.enabletElement()
+    if (this._money >= TOWERS.t1.coast) {
+      this.enableElement()
     }
   }
 }

@@ -1,4 +1,13 @@
-import { TOKENS, TOWER, ROAD, HEADER, LEVELS, NAMES, TOWERS, TOWER_SIZE, ROOT } from "./constants.js"
+import {
+  TOKENS,
+  TOWER,
+  ROAD,
+  HEADER,
+  NAMES,
+  TOWERS,
+  TOWER_SIZE,
+  ROOT,
+} from "./constants.js"
 import Tower from "./Tower.js"
 import BaseGameController from "./BaseGameController.js"
 
@@ -12,158 +21,177 @@ class DragAndDrop extends BaseGameController {
         this._root = root
 
         this._towerSize = TOWER_SIZE
-        this._towerL1 = document.getElementById("preview-tower-l1")
 
-        let currentDroppable = null
-        let isAllowDrop = true
+        Object.keys(TOWERS).forEach(towerId => {
+            this[`_${towerId}`] = document.getElementById(`preview-tower-${towerId}`)
 
-        function enterUnDroppable() {
-            isAllowDrop = false
-            const roads = document.querySelectorAll(ROAD)
+            this[`_${towerId}`].parentElement.querySelector("span").innerHTML = `${TOWERS[towerId].coast}$`
 
-            roads.forEach((elem) => {
-                elem.style.background = TOKENS.danger100
-            })
-        }
+            let currentDroppable = null
+            let isAllowDrop = true
 
-        function leaveUnDroppable() {
-            isAllowDrop = true
-            const roads = document.querySelectorAll(ROAD)
+            function enterUnDroppable() {
+                isAllowDrop = false
+                const roads = document.querySelectorAll(ROAD)
 
-            roads.forEach((elem) => {
-                elem.style.background = ""
-            })
-        }
+                roads.forEach((elem) => {
+                    elem.style.background = TOKENS.danger100
+                })
+            }
 
-        function dragging () {
-            const towers = document.querySelectorAll(TOWER)
-            document.body.classList.add("dragging")
+            function leaveUnDroppable() {
+                isAllowDrop = true
+                const roads = document.querySelectorAll(ROAD)
 
-            towers.forEach(el => {
-                el.style.border = `1px dashed ${TOKENS.danger50}`
-            })
-        }
+                roads.forEach((elem) => {
+                    elem.style.background = ""
+                })
+            }
 
-        function removeDragging () {
-            const towers = document.querySelectorAll(TOWER)
-            document.body.classList.remove("dragging")
+            function dragging () {
+                const towers = document.querySelectorAll(TOWER)
+                document.body.classList.add("dragging")
 
-            towers.forEach(el => {
-                el.style.border = ""
-            })
-        }
+                towers.forEach(el => {
+                    el.style.border = `1px dashed ${TOKENS.danger50}`
+                })
+            }
 
-        const onBougth = this._onBougth.bind(this)
-        const getRound = this._getRound.bind(this)
-        const towerSize = this._towerSize
+            function removeDragging () {
+                const towers = document.querySelectorAll(TOWER)
+                document.body.classList.remove("dragging")
 
-        if (this._towerL1) {
-            if (this._money < TOWERS[LEVELS.l1].coast) this.disableElement(this._towerL1.parentElement)
+                towers.forEach(el => {
+                    el.style.border = ""
+                })
+            }
 
-            this._towerL1.addEventListener("mousedown", (event) => {
-                dragging()
+            const onBougth = this._onBougth.bind(this)
+            const towerSize = this._towerSize
 
-                if (this._money < TOWERS[LEVELS.l1].coast) {
-                    event.preventDefault()
-                    this.disableElement(event.target.parentElement)
+            if (this[`_${towerId}`]) {
+                if (this._money < TOWERS[towerId].coast) this.disableElement(this[`_${towerId}`].parentElement)
 
-                    return
-                }
+                this[`_${towerId}`].addEventListener("mousedown", (event) => {
+                    dragging()
 
-                const fakeTower = document.createElement("div")
+                    if (this._money < TOWERS[towerId].coast) {
+                        event.preventDefault()
+                        this.disableElement(event.target.parentElement)
 
-                fakeTower.classList.add(NAMES.fakeTower)
+                        return
+                    }
 
-                this._root.style.setProperty(
-                    "--fake-tower-size",
-                    `${(TOWERS[this._getRound()].covering * 2) + this._towerSize}px`
-                )
+                    const { x: startX, y: startY } = this[`_${towerId}`].getBoundingClientRect()
+                    const shift = (this._towerSize / 2)
+                    const fakeTower = document.createElement("div")
 
-                let shiftX = event.clientX - fakeTower.getBoundingClientRect().left - (this._towerSize / 2)
-                let shiftY = event.clientY - fakeTower.getBoundingClientRect().top
+                    fakeTower.classList.add(NAMES.fakeTower)
+                    fakeTower.classList.add(towerId)
 
-                this._root.appendChild(fakeTower)
+                    fakeTower.style.top = startY + "px"
+                    fakeTower.style.left = startX + "px"
 
-                moveAt(event.pageX, event.pageY)
+                    this._root.style.setProperty(
+                        "--fake-tower-size",
+                        `${(TOWERS[towerId].covering * 2) + this._towerSize}px`
+                    )
 
-                function moveAt(pageX, pageY) {
-                    fakeTower.style.left = pageX - shiftX + "px"
-                    fakeTower.style.top = pageY - shiftY + "px"
-                }
+                    this._root.appendChild(fakeTower)
 
-                function onMouseMove(event) {
                     moveAt(event.pageX, event.pageY)
 
-                    document.body.classList.add("dragging")
+                    function moveAt(pageX, pageY) {
+                        fakeTower.style.left = pageX - shift + "px"
+                        fakeTower.style.top = pageY - shift + "px"
+                    }
 
-                    fakeTower.hidden = true
-                    let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
-                    fakeTower.hidden = false
+                    function onMouseMove(event) {
+                        moveAt(event.pageX, event.pageY)
 
-                    // mousemove events may trigger out of the window (when the ball is dragged off-screen)
-                    if (!elemBelow) return
+                        document.body.classList.add("dragging")
 
-                    let droppableBelow = elemBelow.closest(`${ROAD}, ${TOWER}, ${HEADER}, .header__towers`)
+                        fakeTower.hidden = true
+                        let elemBelow = document.elementFromPoint(event.clientX, event.clientY)
+                        fakeTower.hidden = false
 
-                    if (currentDroppable !== droppableBelow) {
-                        if (currentDroppable) {
-                            leaveUnDroppable(currentDroppable)
-                        }
+                        // mousemove events may trigger out of the window (when the ball is dragged off-screen)
+                        if (!elemBelow) return
 
-                        currentDroppable = droppableBelow
+                        let droppableBelow = elemBelow.closest(`${ROAD}, ${TOWER}, ${HEADER}, .header__towers`)
 
-                        if (currentDroppable) {
-                            enterUnDroppable(currentDroppable)
+                        if (currentDroppable !== droppableBelow) {
+                            if (currentDroppable) {
+                                leaveUnDroppable(currentDroppable)
+                            }
+
+                            currentDroppable = droppableBelow
+
+                            if (currentDroppable) {
+                                enterUnDroppable(currentDroppable)
+                            }
                         }
                     }
-                }
 
-                // move the ball on mousemove
-                document.addEventListener("mousemove", onMouseMove)
+                    // move the ball on mousemove
+                    document.addEventListener("mousemove", onMouseMove)
 
-                // drop the ball, remove unneeded handlers
-                fakeTower.onmouseup = function(e) {
-                    if (!isAllowDrop) return
+                    // drop the ball, remove unneeded handlers
+                    fakeTower.onmouseup = function(e) {
+                        if (!isAllowDrop) return
 
-                    const { x, y } = e.target.getBoundingClientRect()
+                        const { x, y } = e.target.getBoundingClientRect()
 
-                    document.removeEventListener("mousemove", onMouseMove)
-                    document.body.classList.remove("dragging")
-                    fakeTower.onmouseup = null
+                        document.removeEventListener("mousemove", onMouseMove)
+                        document.body.classList.remove("dragging")
+                        fakeTower.onmouseup = null
 
-                    removeDragging()
-                    fakeTower.remove()
+                        removeDragging()
+                        fakeTower.remove()
 
-                    new Tower({
-                        left: x,
-                        top: y,
-                        level: getRound(),
-                        covering: TOWERS[getRound()].covering,
-                        damage: TOWERS[getRound()].damage,
-                        size: towerSize,
-                    })
+                        new Tower({
+                            left: x,
+                            top: y,
+                            level: towerId,
+                            covering: TOWERS[towerId].covering,
+                            damage: TOWERS[towerId].damage,
+                            size: towerSize,
+                        })
 
-                    if (onBougth) onBougth(TOWERS[getRound()].coast)
-                }
+                        if (onBougth) onBougth(TOWERS[towerId].coast)
+                    }
 
-                fakeTower.ondragstart = function() {
-                    return false
-                }
-            })
-        }
+                    fakeTower.ondragstart = function() {
+                        return false
+                    }
+                })
+            }
+        })
     }
 
     disableElement (element) {
         if (!element) {
-            this._towerL1.parentElement.classList.add("disabled")
+            Object.keys(TOWERS).forEach(towerId => {
+                const tower = document.getElementById(`preview-tower-${towerId}`)
+
+                if (tower) {
+                    tower.parentElement.classList.add("disabled")
+                }
+            })
         } else {
             element.classList.add("disabled")
         }
     }
 
-    enabletElement (element) {
+    enableElement (element) {
         if (!element) {
-            this._towerL1.parentElement.classList.remove("disabled")
+            Object.keys(TOWERS).forEach(towerId => {
+                const tower = document.getElementById(`preview-tower-${towerId}`)
+
+                if (tower) {
+                    tower.parentElement.classList.remove("disabled")
+                }
+            })
         } else {
             element.classList.remove("disabled")
         }

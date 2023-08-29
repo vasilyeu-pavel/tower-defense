@@ -7,7 +7,7 @@ import BaseElement from "./BaseElement.js"
 class Tower extends BaseElement {
   constructor({
     name = NAMES.tower,
-    level = LEVELS.l1,
+    level = LEVELS.t1,
     size = 40,
     left = 390,
     top = 80,
@@ -39,6 +39,7 @@ class Tower extends BaseElement {
   _draw () {
     this._element.classList.add(this._name)
     this._element.classList.add(this._level)
+
     this._element.setAttribute("id", `tower-${Date.now()}`)
 
     // sizes

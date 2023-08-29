@@ -46,11 +46,17 @@ export const LEVELS = {
 }
 
 export const TOWERS = {
-  [LEVELS.l1]: {
+  t1: {
     covering: 50,
     coast: 100,
-    damage: 51,
+    damage: 0.21, // %
     speed: 100,
+  },
+  t2: {
+    covering: 50,
+    coast: 200,
+    damage: 0.51, // %
+    speed: 80,
   }
 }
 
