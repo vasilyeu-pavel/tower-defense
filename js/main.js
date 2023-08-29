@@ -4,9 +4,9 @@ import {
   VERTICAL_LINE,
   ROAD_HEIGHT,
   LEVELS,
-  TOWERS,
   ENEMIES,
   DELAY_BEETWEEN_ROUNDS,
+  ENEMY,
 } from "./constants.js"
 import DragAndDrop from "./DragAndDrop.js"
 
@@ -50,16 +50,20 @@ class MainController extends DragAndDrop {
     }
 
     this._spendLife()
+
+    requestAnimationFrame(() => {
+      const enemies = [...document.querySelectorAll(ENEMY)]
+
+      if (!enemies.length) {
+        this._startNewRound()
+      }
+    })
   }
 
   _onBougth (coast) {
     this._spendMoney(coast)
 
-    const lastTower = Object.keys(TOWERS).slice(-1)[0]
-
-    if (this._money < TOWERS[lastTower].coast) {
-      this.disableElement()
-    }
+    this.disableElement()
   }
 
   _startNewRound () {
@@ -67,8 +71,7 @@ class MainController extends DragAndDrop {
     const nextRound = currentRound + 1
 
     if (
-        this._enemiesInRound === this._killedEnemiesInRound
-        && !!this._getLifeCount()
+        !!this._getLifeCount()
         && !!LEVELS[this._getRoundFormatter(nextRound)]
     ) {
       this._setUpRound()
@@ -85,13 +88,11 @@ class MainController extends DragAndDrop {
 
     this._killedEnemiesInRound = this._killedEnemiesInRound + 1
 
-    const lastTower = Object.keys(TOWERS).slice(-1)[0]
+    this.enableElement()
 
-    if (this._money >= TOWERS[lastTower].coast) {
-      this.enableElement()
+    if (this._enemiesInRound === this._killedEnemiesInRound) {
+      this._startNewRound()
     }
-
-    this._startNewRound()
   }
 }
 

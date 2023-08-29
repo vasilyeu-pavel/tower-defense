@@ -35,6 +35,26 @@
     background-position: center center;
 }
 
+.tower.t3:before, .fake-tower.t3 {
+    background: url("../img/t3.png") 100% / contain no-repeat;
+    background-position: center center;
+}
+
+.tower.t4:before, .fake-tower.t4 {
+    background: url("../img/t4.png") 100% / contain no-repeat;
+    background-position: center center;
+}
+
+.tower.t5:before, .fake-tower.t5 {
+    background: url("../img/t5.png") 100% / contain no-repeat;
+    background-position: center center;
+}
+
+.tower.t6:before, .fake-tower.t6 {
+    background: url("../img/t5.png") 100% / contain no-repeat;
+    background-position: center center;
+}
+
 .fake-tower:before {
     z-index: 3;
 }

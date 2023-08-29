@@ -7,7 +7,6 @@
     animation-duration: .3s;
     animation-timing-function: steps(1);
     animation-iteration-count: infinite;
-    background: url("../img/enimes.png") no-repeat;
 }
 
 .enemy:before {
@@ -46,6 +45,14 @@
 
 .enemy.bottom {
     animation-name: sprite-bottom;
+}
+
+.enemy.l1 {
+    background: url("../img/enimes.png") no-repeat;
+}
+
+.enemy.l2 {
+    background: url("../img/enimes.png") no-repeat;
 }
 
 @keyframes sprite-right {

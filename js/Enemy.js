@@ -106,7 +106,9 @@ class Enemy extends BaseElement {
   win () {
     this._element.remove()
 
-    if (this.onWin) this.onWin()
+    if (this.onWin) {
+      this.onWin()
+    }
   }
 
   move() {

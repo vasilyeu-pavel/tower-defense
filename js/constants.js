@@ -37,7 +37,7 @@ export const TOKENS = {
   danger50: "rgba(255, 0, 0, 0.5)",
 }
 
-export const START_MONEY = 600
+export const START_MONEY = 100
 
 export const LEVELS = {
   l1: "l1",
@@ -47,22 +47,46 @@ export const LEVELS = {
 export const TOWERS = {
   t1: {
     covering: 50,
-    coast: 100,
+    coast: 50,
     damage: 0.21, // %
     speed: 100,
   },
   t2: {
     covering: 50,
+    coast: 100,
+    damage: 0.31, // %
+    speed: 80,
+  },
+  t3: {
+    covering: 50,
+    coast: 150,
+    damage: 0.41, // %
+    speed: 80,
+  },
+  t4: {
+    covering: 50,
     coast: 200,
     damage: 0.51, // %
     speed: 80,
-  }
+  },
+  t5: {
+    covering: 50,
+    coast: 250,
+    damage: 0.61, // %
+    speed: 80,
+  },
+  t6: {
+    covering: 50,
+    coast: 300,
+    damage: 0.71, // %
+    speed: 80,
+  },
 }
 
 export const ENEMIES = {
   [LEVELS.l1]: {
     health: 100, // %
-    count: 2,
+    count: 8,
     delay: 1000,
     speed: 40,
   },

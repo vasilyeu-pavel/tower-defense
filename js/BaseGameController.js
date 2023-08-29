@@ -3,7 +3,7 @@ import { START_MONEY } from "./constants.js"
 class BaseGameController {
     constructor () {
         this._lifes = 5
-        this._round = 1
+        this._round = 2
         this._money = START_MONEY
 
         this._moneyElement = document.querySelector(".header__gold-value")
