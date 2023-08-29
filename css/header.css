@@ -94,10 +94,11 @@
     cursor: not-allowed;
 }
 
-.header__tower-t1.disabled
-.header__tower-t1_tower,
-.header__tower-t2.disabled,
-.header__tower-t2_tower {
+.header__tower-t1.disabled .header__tower-t1_tower {
+    cursor: not-allowed;
+}
+
+.header__tower-t2.disabled .header__tower-t2_tower {
     cursor: not-allowed;
 }
 
