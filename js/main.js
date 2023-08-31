@@ -9,6 +9,7 @@ import {
   ENEMY,
 } from "./constants.js"
 import DragAndDrop from "./DragAndDrop.js"
+import { delay } from "./utils.js"
 
 class MainController extends DragAndDrop {
   constructor() {
@@ -22,9 +23,13 @@ class MainController extends DragAndDrop {
     this._start()
   }
 
-  _start () {
+  async _start () {
     const round = this._getRound()
     this._enemiesInRound = ENEMIES[round].count
+
+    console.log("Round: ", this._round)
+
+    await delay(1000)
 
     let i = 0
     const timer = setInterval(() => {

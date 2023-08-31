@@ -70,3 +70,7 @@ export function interpolate(a, b, frac) {
 
   return { x: nx, y: ny }
 }
+
+export function delay (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
